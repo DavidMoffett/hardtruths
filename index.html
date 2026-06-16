@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hard Truths — The Truth About Your Website</title>
+  <style>
+    :root {
+      --ink: #151312;
+      --muted: #68615c;
+      --paper: #f4efe7;
+      --panel: #fffaf2;
+      --line: #d2c4b3;
+      --accent: #b6422b;
+      --accent-dark: #7d291d;
+      --dark: #1f1b18;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.5;
+    }
+
+    .topbar {
+      width: 100%;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(244, 239, 231, 0.94);
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(8px);
+    }
+
+    .brand {
+      font-family: Arial, Helvetica, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      font-weight: 900;
+      font-size: 14px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 18px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 13px;
+    }
+
+    .nav a {
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav a:hover { color: var(--accent); }
+
+    .hero {
+      min-height: 78vh;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero-left {
+      padding: 78px 7vw 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .eyebrow {
+      font-family: Arial, Helvetica, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 12px;
+      color: var(--accent-dark);
+      font-weight: 900;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      font-size: clamp(47px, 7vw, 92px);
+      line-height: 0.94;
+      letter-spacing: -0.055em;
+      max-width: 820px;
+      margin: 0 0 28px;
+      font-weight: 500;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(33px, 4vw, 56px);
+      line-height: 0.98;
+      letter-spacing: -0.035em;
+      font-weight: 500;
+    }
+
+    h3 {
+      margin: 0 0 12px;
+      font-size: 28px;
+      line-height: 1.02;
+      font-weight: 500;
+    }
+
+    .hero-copy {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(18px, 2vw, 22px);
+      max-width: 700px;
+      color: #302b27;
+      margin: 0 0 30px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 15px 21px;
+      border: 1px solid var(--ink);
+      text-decoration: none;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 900;
+      font-size: 13px;
+      letter-spacing: 0.02em;
+      color: var(--ink);
+      background: transparent;
+    }
+
+    .button.primary {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .note {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 18px;
+    }
+
+    .hero-right {
+      background: var(--dark);
+      color: var(--paper);
+      padding: 50px 5vw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .truth-card {
+      width: min(460px, 100%);
+      background: #2d2722;
+      border: 1px solid rgba(255,255,255,0.18);
+      padding: 28px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+    }
+
+    .truth-card-top {
+      font-family: Arial, Helvetica, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #e3c8b7;
+      font-size: 12px;
+      margin-bottom: 24px;
+    }
+
+    .truth-row {
+      border-top: 1px solid rgba(255,255,255,0.14);
+      padding: 17px 0;
+    }
+
+    .truth-label,
+    .sample-label {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #b9aca2;
+      margin-bottom: 7px;
+      font-weight: 900;
+    }
+
+    .truth-row p {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.18;
+    }
+
+    .truth-stamp {
+      margin-top: 18px;
+      display: inline-block;
+      border: 1px solid var(--accent);
+      color: #ffb7a7;
+      font-family: Arial, Helvetica, sans-serif;
+      text-transform: uppercase;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      transform: rotate(-2deg);
+      padding: 8px 12px;
+      font-size: 12px;
+    }
+
+    section {
+      padding: 62px 7vw;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(220px, 0.5fr) minmax(0, 1fr);
+      gap: 38px;
+      align-items: start;
+      margin-bottom: 34px;
+    }
+
+    .section-intro {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 19px;
+      color: #332d29;
+      max-width: 760px;
+      margin: 0;
+    }
+
+    .framework {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .framework-item {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 22px 18px;
+      min-height: 150px;
+    }
+
+    .framework-item h3 {
+      font-size: 29px;
+      margin-bottom: 9px;
+    }
+
+    .framework-item p {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .offer-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.85fr) minmax(320px, 1fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .quote-block {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 38px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 390px;
+    }
+
+    .quote-block p {
+      font-size: clamp(32px, 4.2vw, 58px);
+      line-height: 0.98;
+      letter-spacing: -0.045em;
+      margin: 0;
+    }
+
+    .quote-block span {
+      font-family: Arial, Helvetica, sans-serif;
+      color: #cbbfb4;
+      margin-top: 26px;
+      display: block;
+    }
+
+    .offer-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 30px;
+    }
+
+    .price {
+      font-size: 64px;
+      line-height: 1;
+      letter-spacing: -0.05em;
+      margin: 12px 0 18px;
+    }
+
+    .offer-card ul {
+      padding: 0;
+      margin: 22px 0;
+      list-style: none;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .offer-card li {
+      padding: 11px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .offer-card li:last-child {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .accordion-wrap {
+      display: grid;
+      gap: 12px;
+    }
+
+    details {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      overflow: hidden;
+    }
+
+    summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 22px 24px;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: center;
+      font-size: clamp(24px, 3vw, 34px);
+      line-height: 1.02;
+      letter-spacing: -0.025em;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      content: "+";
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 900;
+      color: var(--accent-dark);
+      font-size: 26px;
+      flex: 0 0 auto;
+    }
+
+    details[open] summary::after {
+      content: "–";
+    }
+
+    .slide-panel {
+      border-top: 1px solid var(--line);
+      padding: 0 24px 24px;
+      animation: slideDown 180ms ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .slide-panel p,
+    .slide-panel li {
+      font-family: Arial, Helvetica, sans-serif;
+      color: #3a332e;
+      font-size: 16px;
+    }
+
+    .slide-panel ul {
+      padding-left: 18px;
+      margin: 12px 0 0;
+    }
+
+    .sample-review {
+      background: var(--dark);
+      color: var(--paper);
+      border: 1px solid rgba(255,255,255,0.14);
+      padding: 28px;
+      margin-top: 12px;
+    }
+
+    .sample-review h3 {
+      font-size: 34px;
+      color: var(--paper);
+    }
+
+    .sample-line {
+      border-top: 1px solid rgba(255,255,255,0.15);
+      padding: 14px 0;
+    }
+
+    .sample-line:last-child {
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .sample-line p {
+      margin: 0;
+      color: #f1e6da;
+    }
+
+    .process-mini {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .step {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 20px;
+      min-height: 160px;
+    }
+
+    .step-number {
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--accent-dark);
+      font-weight: 900;
+      margin-bottom: 18px;
+    }
+
+    .step p {
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--muted);
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .first-look {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.85fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .first-look-card {
+      background: var(--dark);
+      color: var(--paper);
+      padding: 30px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .first-look-sample {
+      border-left: 5px solid var(--accent);
+      background: rgba(255,255,255,0.05);
+      padding: 20px;
+    }
+
+    .first-look-sample p {
+      margin: 7px 0 0;
+      font-size: 23px;
+      line-height: 1.15;
+    }
+
+    .dark-strip {
+      background: var(--dark);
+      color: var(--paper);
+      border-bottom: none;
+    }
+
+    .dark-strip .section-intro {
+      color: #d8ccc0;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 10px 13px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 14px;
+      color: #f0e4d8;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .final {
+      text-align: center;
+      padding: 80px 7vw 90px;
+      border-bottom: none;
+    }
+
+    .final h2 {
+      max-width: 960px;
+      margin: 0 auto 26px;
+    }
+
+    .final p {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 20px;
+      color: var(--muted);
+      max-width: 740px;
+      margin: 0 auto 28px;
+    }
+
+    @media (max-width: 880px) {
+      .topbar {
+        position: static;
+      }
+
+      .nav {
+        display: none;
+      }
+
+      .hero,
+      .section-head,
+      .offer-grid,
+      .first-look,
+      .framework,
+      .process-mini {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .hero-left {
+        padding: 58px 6vw 42px;
+      }
+
+      .hero-right {
+        padding: 36px 6vw;
+      }
+
+      section {
+        padding: 46px 6vw;
+      }
+
+      .quote-block {
+        min-height: auto;
+      }
+
+      summary {
+        padding: 20px;
+      }
+
+      .slide-panel {
+        padding: 0 20px 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">Hard Truths</div>
+    <nav class="nav">
+      <a href="#truth">The Truth</a>
+      <a href="#offer">Offer</a>
+      <a href="#details">Details</a>
+      <a href="#start">Start</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-left">
+        <div class="eyebrow">The Truth About Your Website</div>
+        <h1>Your website may look finished.</h1>
+        <p class="hero-copy">
+          But is it doing the job you thought you paid for? We expose what your website is really saying, what behaviour it is encouraging, and where it is working against you — then turn it into the website you thought you were getting.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="#start">Send your website</a>
+          <a class="button" href="#truth">See what we look for</a>
+        </div>
+        <div class="note">Human-led. AI-assisted. Maximum 2 website repurposes per week.</div>
+      </div>
+
+      <aside class="hero-right">
+        <div class="truth-card">
+          <div class="truth-card-top">Sample Website Truth</div>
+          <div class="truth-row">
+            <div class="truth-label">Claimed position</div>
+            <p>Premium specialist.</p>
+          </div>
+          <div class="truth-row">
+            <div class="truth-label">Actual signal</div>
+            <p>Generic, vague, and easy to compare on price.</p>
+          </div>
+          <div class="truth-row">
+            <div class="truth-label">Encouraged behaviour</div>
+            <p>Hesitate. Browse. Ask vague questions.</p>
+          </div>
+          <div class="truth-stamp">Truth gap found</div>
+        </div>
+      </aside>
+    </section>
+
+    <section id="truth">
+      <div class="section-head">
+        <h2>Your website is already training visitors.</h2>
+        <p class="section-intro">
+          It may be training them to trust you, doubt you, compare you, ignore you, bargain with you, or buy from you. A useful website has four jobs.
+        </p>
+      </div>
+
+      <div class="framework">
+        <div class="framework-item">
+          <h3>Believe.</h3>
+          <p>Does the site make a credible claim, or sound like everyone else?</p>
+        </div>
+        <div class="framework-item">
+          <h3>Understand.</h3>
+          <p>Can the right visitor see what you do and whether it is for them?</p>
+        </div>
+        <div class="framework-item">
+          <h3>Trust.</h3>
+          <p>Is there enough real proof and specificity to reduce hesitation?</p>
+        </div>
+        <div class="framework-item">
+          <h3>Act.</h3>
+          <p>Is the next step obvious, or does the site create drift?</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="offer">
+      <div class="offer-grid">
+        <div class="quote-block">
+          <p>Pretty websites get compliments. Behaviour-first websites get the right enquiries.</p>
+          <span>No bullshit. No bloat. No boredom.</span>
+        </div>
+
+        <div class="offer-card">
+          <div class="eyebrow">Fixed offer</div>
+          <h2>The Truth About Your Website</h2>
+          <div class="price">US$500</div>
+          <p class="section-intro">A blunt Website Truth Review and behaviour-first repurpose for owner-led businesses.</p>
+          <ul>
+            <li>Written Website Truth Review</li>
+            <li>Behaviour-first build plan</li>
+            <li>Clean website repurpose or rebuild</li>
+            <li>Search-ready foundations</li>
+            <li>Clarity, trust, and behaviour testing</li>
+            <li>2 iterations included</li>
+          </ul>
+          <a class="button primary" href="#start">Start with US$500</a>
+          <p class="note">Simple shop version: US$750.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="details">
+      <div class="section-head">
+        <h2>The detail is here when you need it.</h2>
+        <p class="section-intro">
+          The homepage stays short. The proof, process, AI explanation, testing, and search foundations sit behind simple slide-outs.
+        </p>
+      </div>
+
+      <div class="accordion-wrap">
+        <details open>
+          <summary>What you actually receive</summary>
+          <div class="slide-panel">
+            <p>You get a clear diagnosis, a practical plan, and a repurposed website tested against the behaviour it is meant to create.</p>
+            <ul>
+              <li>Claimed position vs actual signal</li>
+              <li>Current visitor behaviour diagnosis</li>
+              <li>Truth gap and negative behaviour risk</li>
+              <li>Required visitor behaviour</li>
+              <li>Page and section plan</li>
+              <li>Repurposed website copy and structure</li>
+              <li>Clean build with search-ready foundations</li>
+              <li>Two included iterations</li>
+            </ul>
+          </div>
+        </details>
+
+        <details>
+          <summary>Example output</summary>
+          <div class="slide-panel">
+            <div class="sample-review">
+              <div class="eyebrow">Sample hard truth</div>
+              <h3>Premium claim. Commodity behaviour.</h3>
+
+              <div class="sample-line">
+                <div class="sample-label">Claimed position</div>
+                <p>Premium specialist service.</p>
+              </div>
+              <div class="sample-line">
+                <div class="sample-label">Actual signal</div>
+                <p>Generic category language, weak proof, and no clear reason to choose you over the next provider.</p>
+              </div>
+              <div class="sample-line">
+                <div class="sample-label">Encouraged behaviour</div>
+                <p>Visitors skim, compare on price, hesitate, and send vague enquiries.</p>
+              </div>
+              <div class="sample-line">
+                <div class="sample-label">Build direction</div>
+                <p>Lead with the real business truth, sharpen proof, remove unnecessary choices, and make the next action obvious.</p>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>What happens next</summary>
+          <div class="slide-panel">
+            <p>The process is deliberately small: one site, one business truth, one desired visitor behaviour, one obvious next step.</p>
+            <div class="process-mini">
+              <div class="step">
+                <div class="step-number">01</div>
+                <h3>Send the site</h3>
+                <p>You send your current website and explain what you thought it was meant to do.</p>
+              </div>
+              <div class="step">
+                <div class="step-number">02</div>
+                <h3>Get the truth</h3>
+                <p>We identify what it is actually saying and where the truth gap sits.</p>
+              </div>
+              <div class="step">
+                <div class="step-number">03</div>
+                <h3>Repurpose it</h3>
+                <p>We rebuild around the fewest choices needed to create the right behaviour.</p>
+              </div>
+              <div class="step">
+                <div class="step-number">04</div>
+                <h3>Test it</h3>
+                <p>We check clarity, trust, findability, and the next action before handover.</p>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>Human-led, AI-assisted</summary>
+          <div class="slide-panel">
+            <p>Every contract is personally reviewed, judged, written, structured, and tested by a human. AI helps us move faster, compare alternatives, pressure-test the message, and strip out obvious waste — but it does not replace judgement.</p>
+            <p><strong>That is why we only repurpose 2 websites per week.</strong> The limit keeps the work personal, honest, and properly tested before the new site goes live.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Search-ready, not SEO-swamp</summary>
+          <div class="slide-panel">
+            <p>We do not sell SEO campaigns. But we do not build websites that search engines, AI tools, or real visitors struggle to understand.</p>
+            <ul>
+              <li>Clear page titles and headings</li>
+              <li>Plain-language service descriptions</li>
+              <li>Useful meta descriptions</li>
+              <li>Mobile-friendly structure</li>
+              <li>Local and category signals where relevant</li>
+            </ul>
+          </div>
+        </details>
+
+        <details>
+          <summary>The truth is only useful if it helps</summary>
+          <div class="slide-panel">
+            <p>We are blunt because vague feedback wastes money. The point is not to criticise your website for sport. The point is to make it clearer, more credible, easier to trust, and more useful to the people you actually want.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section>
+      <div class="first-look">
+        <div>
+          <div class="eyebrow">First look</div>
+          <h2>Want to know what your website is really saying?</h2>
+          <p class="section-intro">
+            Send us your website and we may send back one clear observation: what your site appears to be saying, what behaviour it may be encouraging, and where the first truth gap sits.
+          </p>
+          <p class="note">This is not the full review. It is a first look at whether your site is doing the job you thought it was doing.</p>
+        </div>
+
+        <div class="first-look-card">
+          <div class="first-look-sample">
+            <div class="truth-label">First observation</div>
+            <p>Your site says “premium service”, but the first screen trains people to compare you like a commodity.</p>
+          </div>
+          <div class="first-look-sample">
+            <div class="truth-label">Likely behaviour</div>
+            <p>Visitors hesitate, skim, and ask price-first questions instead of fit-first questions.</p>
+          </div>
+          <a class="button primary" href="mailto:hello@hardtruths.co?subject=First%20look%20at%20my%20website">Send your site</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="dark-strip">
+      <div class="section-head">
+        <h2>For businesses whose website is attracting the wrong behaviour.</h2>
+        <p class="section-intro">
+          Good fit: owner-led businesses, premium services, boutique brands, consultants, photographers, rural and equestrian businesses, specialist trades, and small shops with a good offer but weak website behaviour.
+        </p>
+      </div>
+
+      <div class="pill-row">
+        <span class="pill">Trust</span>
+        <span class="pill">Hesitate</span>
+        <span class="pill">Compare on price</span>
+        <span class="pill">Self-select</span>
+        <span class="pill">Book confidently</span>
+        <span class="pill">Ask vague questions</span>
+        <span class="pill">Wait for discount</span>
+        <span class="pill">Buy now</span>
+      </div>
+    </section>
+
+    <section id="start" class="final">
+      <h2>Before you pay for another pretty redesign, get the hard truth.</h2>
+      <p>
+        Send your current website and tell us what you thought it was meant to do.
+      </p>
+      <a class="button primary" href="mailto:hello@hardtruths.co?subject=First%20look%20at%20my%20website">Send your website</a>
+    </section>
+  </main>
+</body>
+</html>
