@@ -17,7 +17,10 @@
     }
 
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       margin: 0;
@@ -61,7 +64,31 @@
       text-decoration: none;
     }
 
-    .nav a:hover { color: var(--accent); }
+    .nav a:hover {
+      color: var(--accent);
+    }
+
+    .back-to-start {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 60;
+      background: var(--ink);
+      color: var(--paper);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 12px 14px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.25);
+    }
+
+    .back-to-start:hover {
+      background: var(--accent-dark);
+    }
 
     .hero {
       min-height: 78vh;
@@ -142,6 +169,10 @@
     .button.primary {
       background: var(--ink);
       color: var(--paper);
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
     }
 
     .note {
@@ -445,19 +476,13 @@
       font-size: 14px;
     }
 
-    .first-look {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.85fr);
-      gap: 24px;
-      align-items: stretch;
-    }
-
     .first-look-card {
       background: var(--dark);
       color: var(--paper);
-      padding: 30px;
+      padding: 26px;
       display: grid;
       gap: 16px;
+      margin-top: 18px;
     }
 
     .first-look-sample {
@@ -470,23 +495,35 @@
       margin: 7px 0 0;
       font-size: 23px;
       line-height: 1.15;
+      color: var(--paper);
+      font-family: Georgia, "Times New Roman", serif;
     }
 
-    .dark-strip {
+    .fit-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 0.85fr);
+      gap: 20px;
+      align-items: start;
+      margin-top: 16px;
+    }
+
+    .fit-card {
       background: var(--dark);
       color: var(--paper);
-      border-bottom: none;
+      padding: 24px;
     }
 
-    .dark-strip .section-intro {
-      color: #d8ccc0;
+    .fit-card p {
+      color: #f1e6da;
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
     }
 
     .pill-row {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-top: 28px;
+      margin-top: 18px;
     }
 
     .pill {
@@ -500,21 +537,30 @@
 
     .final {
       text-align: center;
-      padding: 80px 7vw 90px;
+      padding: 84px 7vw 96px;
       border-bottom: none;
+      background: var(--dark);
+      color: var(--paper);
     }
 
     .final h2 {
       max-width: 960px;
       margin: 0 auto 26px;
+      color: var(--paper);
     }
 
     .final p {
       font-family: Arial, Helvetica, sans-serif;
       font-size: 20px;
-      color: var(--muted);
+      color: #d8ccc0;
       max-width: 740px;
       margin: 0 auto 28px;
+    }
+
+    .final .button.primary {
+      background: var(--paper);
+      color: var(--ink);
+      border-color: var(--paper);
     }
 
     @media (max-width: 880px) {
@@ -526,12 +572,19 @@
         display: none;
       }
 
+      .back-to-start {
+        right: 12px;
+        bottom: 12px;
+        padding: 10px 12px;
+        font-size: 11px;
+      }
+
       .hero,
       .section-head,
       .offer-grid,
-      .first-look,
       .framework,
-      .process-mini {
+      .process-mini,
+      .fit-grid {
         grid-template-columns: 1fr;
       }
 
@@ -566,6 +619,8 @@
   </style>
 </head>
 <body>
+  <a class="back-to-start" href="#landing">Back to top ↑</a>
+
   <header class="topbar">
     <div class="brand">Hard Truths</div>
     <nav class="nav">
@@ -577,7 +632,7 @@
   </header>
 
   <main>
-    <section class="hero">
+    <section id="landing" class="hero">
       <div class="hero-left">
         <div class="eyebrow">The Truth About Your Website</div>
         <h1>Your website may look finished.</h1>
@@ -669,7 +724,7 @@
       <div class="section-head">
         <h2>The detail is here when you need it.</h2>
         <p class="section-intro">
-          The homepage stays short. The proof, process, AI explanation, testing, and search foundations sit behind simple slide-outs.
+          The homepage stays short. The proof, process, first look, fit, AI explanation, and search foundations sit behind simple slide-outs.
         </p>
       </div>
 
@@ -748,6 +803,63 @@
         </details>
 
         <details>
+          <summary>Want a first look?</summary>
+          <div class="slide-panel">
+            <p>Send us your website and we may send back one clear observation: what your site appears to be saying, what behaviour it may be encouraging, and where the first truth gap sits.</p>
+            <p>This is not the full review. It is a first look at whether your site is doing the job you thought it was doing.</p>
+
+            <div class="first-look-card">
+              <div class="first-look-sample">
+                <div class="truth-label">First observation</div>
+                <p>Your site says “premium service”, but the first screen trains people to compare you like a commodity.</p>
+              </div>
+              <div class="first-look-sample">
+                <div class="truth-label">Likely behaviour</div>
+                <p>Visitors hesitate, skim, and ask price-first questions instead of fit-first questions.</p>
+              </div>
+              <a class="button primary" href="mailto:hello@hardtruths.co?subject=First%20look%20at%20my%20website">Send your site</a>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>Who this is for</summary>
+          <div class="slide-panel">
+            <p>This is for businesses whose website is attracting the wrong behaviour.</p>
+
+            <div class="fit-grid">
+              <div>
+                <ul>
+                  <li>Owner-led businesses</li>
+                  <li>Premium services</li>
+                  <li>Boutique brands</li>
+                  <li>Consultants</li>
+                  <li>Photographers</li>
+                  <li>Rural and equestrian businesses</li>
+                  <li>Specialist trades</li>
+                  <li>Small shops with a good offer but weak website behaviour</li>
+                </ul>
+              </div>
+
+              <div class="fit-card">
+                <p>The right client already suspects their website is not helping enough. They may be getting wrong-fit enquiries, price shoppers, confused questions, or not enough trust from the people they actually want.</p>
+
+                <div class="pill-row">
+                  <span class="pill">Trust</span>
+                  <span class="pill">Hesitate</span>
+                  <span class="pill">Compare on price</span>
+                  <span class="pill">Self-select</span>
+                  <span class="pill">Book confidently</span>
+                  <span class="pill">Ask vague questions</span>
+                  <span class="pill">Wait for discount</span>
+                  <span class="pill">Buy now</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details>
           <summary>Human-led, AI-assisted</summary>
           <div class="slide-panel">
             <p>Every contract is personally reviewed, judged, written, structured, and tested by a human. AI helps us move faster, compare alternatives, pressure-test the message, and strip out obvious waste — but it does not replace judgement.</p>
@@ -775,51 +887,6 @@
             <p>We are blunt because vague feedback wastes money. The point is not to criticise your website for sport. The point is to make it clearer, more credible, easier to trust, and more useful to the people you actually want.</p>
           </div>
         </details>
-      </div>
-    </section>
-
-    <section>
-      <div class="first-look">
-        <div>
-          <div class="eyebrow">First look</div>
-          <h2>Want to know what your website is really saying?</h2>
-          <p class="section-intro">
-            Send us your website and we may send back one clear observation: what your site appears to be saying, what behaviour it may be encouraging, and where the first truth gap sits.
-          </p>
-          <p class="note">This is not the full review. It is a first look at whether your site is doing the job you thought it was doing.</p>
-        </div>
-
-        <div class="first-look-card">
-          <div class="first-look-sample">
-            <div class="truth-label">First observation</div>
-            <p>Your site says “premium service”, but the first screen trains people to compare you like a commodity.</p>
-          </div>
-          <div class="first-look-sample">
-            <div class="truth-label">Likely behaviour</div>
-            <p>Visitors hesitate, skim, and ask price-first questions instead of fit-first questions.</p>
-          </div>
-          <a class="button primary" href="mailto:hello@hardtruths.co?subject=First%20look%20at%20my%20website">Send your site</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="dark-strip">
-      <div class="section-head">
-        <h2>For businesses whose website is attracting the wrong behaviour.</h2>
-        <p class="section-intro">
-          Good fit: owner-led businesses, premium services, boutique brands, consultants, photographers, rural and equestrian businesses, specialist trades, and small shops with a good offer but weak website behaviour.
-        </p>
-      </div>
-
-      <div class="pill-row">
-        <span class="pill">Trust</span>
-        <span class="pill">Hesitate</span>
-        <span class="pill">Compare on price</span>
-        <span class="pill">Self-select</span>
-        <span class="pill">Book confidently</span>
-        <span class="pill">Ask vague questions</span>
-        <span class="pill">Wait for discount</span>
-        <span class="pill">Buy now</span>
       </div>
     </section>
 
